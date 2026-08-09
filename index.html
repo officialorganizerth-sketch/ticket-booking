@@ -493,21 +493,25 @@
 <select id="table" name="table" required style="width: 100%; padding: 12px; border-radius: 8px; background: #130b22; color: #fff; border: 1px solid #3a2359; margin-top: 5px;">
   <option value="">-- กรุณาเลือกโต๊ะ --</option>
   
-  <!-- โซน VIP -->
-  <option value="VIP-01">VIP-01</option>
-  <option value="VIP-02">VIP-02</option>
-  <option value="VIP-03">VIP-03</option>
-  <option value="VIP-04">VIP-04</option>
-  <option value="VIP-05">VIP-05</option>
+ <!-- ช่องเลือกโซน -->
+<div class="field">
+  <label>เลือกโซนที่ต้องการ <span class="req">*</span></label>
+  <select id="zoneSelect" onchange="updateTableList()" style="width: 100%; padding: 12px; border-radius: 8px; background: #130b22; color: #fff; border: 1px solid #3a2b5a;" required>
+    <option value="" disabled selected>-- เลือกโซนที่ต้องการ --</option>
+    <option value="VIP">VIP - 3,999 บาท</option>
+    <option value="A">โซน A - 2,800 บาท</option>
+    <option value="B">โซน B - 2,600 บาท</option>
+    <option value="C/D">โซน C, D - 399 บาท</option>
+  </select>
+</div>
 
-  <!-- โซน A -->
-  <option value="A-01">A-01</option>
-  <option value="A-02">A-02</option>
-  <option value="A-03">A-03</option>
-  <option value="A-04">A-04</option>
-  <option value="A-05">A-05</option>
-  
-  <!-- เพิ่มรายการเลขโต๊ะอื่นๆ จนครบ 200 โต๊ะตามต้องการ -->
+<!-- ช่องเลือกเลขโต๊ะ (ที่จะเปลี่ยนตามโซนอัตโนมัติ) -->
+<div class="field">
+  <label for="table">เลือกเลขโต๊ะ <span class="req">*</span></label>
+  <select id="table" name="table" style="width: 100%; padding: 12px; border-radius: 8px; background: #130b22; color: #fff; border: 1px solid #3a2b5a;" required>
+    <option value="">-- กรุณาเลือกโซนก่อน --</option>
+  </select>
+</div>
 </select>
          <div class="field">
   <label>แนบสลิปการโอนเงิน <span class="req">*</span></label>
@@ -669,6 +673,42 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
           `).join('')}
         </div>
       </div>
-    `;
+    `;function updateTableList() {
+  const zone = document.getElementById('zoneSelect').value;
+  const tableSelect = document.getElementById('table');
+  
+  tableSelect.innerHTML = '<option value="">-- เลือกโต๊ะ --</option>';
+  
+  let prefix = '';
+  let totalTables = 0;
+  
+  // กำหนดคำนำหน้าและจำนวนโต๊ะของแต่ละโซน
+  if (zone === 'VIP') {
+    prefix = 'VIP-';
+    totalTables = 10; // สมมติโซน VIP มี 10 โต๊ะ (ปรับเปลี่ยนตัวเลขได้ตามต้องการ)
+  } else if (zone === 'A') {
+    prefix = 'A-';
+    totalTables = 30; // โซน A มี 30 โต๊ะ
+  } else if (zone === 'B') {
+    prefix = 'B-';
+    totalTables = 25; // โซน B มี 25 โต๊ะ
+  } else if (zone === 'C/D') {
+    // กรณีโซน C และ D รวมกัน หรืออยากแยก ก็สามารถเพิ่มเงื่อนไขได้ครับ
+    prefix = 'C-';
+    totalTables = 20; 
+  }
+  
+  // ระบบจะวนลูปสร้างเลขโต๊ะให้อัตโนมัติ (เช่น 01, 02, 03 ไปจนถึงจำนวนโต๊ะที่ตั้งไว้)
+  for (let i = 1; i <= totalTables; i++) {
+    // ทำให้เลขโต๊ะเป็น 2 หลักเสมอ เช่น 1 กลายเป็น 01
+    const tableNumber = String(i).padStart(2, '0'); 
+    const tableName = prefix + tableNumber;
+    
+    const opt = document.createElement('option');
+    opt.value = tableName;
+    opt.textContent = tableName;
+    tableSelect.appendChild(opt);
+  }
+}
   }
 </script>
