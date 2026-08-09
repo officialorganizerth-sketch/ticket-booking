@@ -509,17 +509,23 @@
   
   <!-- เพิ่มรายการเลขโต๊ะอื่นๆ จนครบ 200 โต๊ะตามต้องการ -->
 </select>
-          <div class="field">
-            <label>แนบสลิปการโอนเงิน <span class="req">*</span></label>
-            <label class="file-upload" for="slip">
-              <span class="icon">📎</span>
-              <span class="txt">
-                <b>คลิกเพื่อแนบไฟล์สลิป</b>
-                <span id="fileName">ยังไม่ได้เลือกไฟล์ (JPG, PNG, PDF)</span>
-              </span>
-              <input type="file" id="slip" name="slip" accept="image/*" required>
-            </label>
-          </div>
+         <div class="field">
+  <label>แนบสลิปการโอนเงิน <span class="req">*</span></label>
+  
+  <label class="file-upload" for="slip" style="cursor: pointer; display: block;">
+    <span class="icon">📎</span>
+    <span class="txt">
+      <b>คลิกเพื่อแนบไฟล์สลิป</b>
+      <span id="fileName">ยังไม่ได้เลือกไฟล์ (JPG, PNG)</span>
+    </span>
+  </label>
+
+  <input type="file" id="slip" name="slip" accept="image/*" required style="display: none;">
+</div>
+
+  <!-- ช่องรับไฟล์ (แยกออกมาด้านนอก label) -->
+  <input type="file" id="slip" name="slip" accept="image/*" required style="display: none;">
+</div>
         </div>
 
         <button type="submit" class="submit-btn">ส่งข้อมูลจองบัตร</button>
