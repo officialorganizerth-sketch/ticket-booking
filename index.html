@@ -616,7 +616,7 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
          mode: "no-cors",
          body: JSON.stringify(payload)
        });
-          renderQRCodes(ticketList, tableVal);
+          renderQRCodes(ticketList, tableVal, payload.name, payload.phone);
           updateBookedTables();
           form.reset();
           if (fileNameEl) {
