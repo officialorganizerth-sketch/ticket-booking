@@ -611,19 +611,32 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
             fileName: fileNameVal
           };
 
-             await fetch(webAppUrl, {
-         method: "POST",
-         mode: "no-cors",
-         body: JSON.stringify(payload)
-       });
-          renderQRCodes(ticketList, tableVal, payload.name, payload.phone);
-          updateBookedTables();
-          form.reset();
-          if (fileNameEl) {
-            fileNameEl.textContent = "กรุณาเลือกรูปภาพสลิป";
-            fileNameEl.style.color = "";
-          }
-          alert("🎉 จองสำเร็จเรียบร้อยแล้ว!");
+               const response = await fetch(webAppUrl, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+    
+    const result = await response.json();
+
+    // ถ้า Google Sheets ส่งค่า error กลับมา (แปลว่าโต๊ะซ้ำ)
+    if (result.status === "error") {
+        alert(result.message); // จะเด้งเตือนบอกว่าโต๊ะนี้ถูกจองไปแล้ว
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "ส่งข้อมูลจองบัตร";
+        }
+        return; // หยุดการทำงานทันที ไม่สร้าง QR Code
+    }
+
+    // ถ้าผ่าน (จองสำเร็จจริงๆ) ถึงค่อยโชว์ QR Code
+    renderQRCodes(ticketList, tableVal, payload.name, payload.phone);
+    updateBookedTables();
+    form.reset();
+    if (fileNameEl) {
+        fileNameEl.textContent = "กรุณาเลือกรูปภาพสลิป";
+        fileNameEl.style.color = "";
+    }
+    alert("🎉 จองสำเร็จเรียบร้อยแล้ว!");
 
         } catch (err) {
           console.error('Error:', err);
