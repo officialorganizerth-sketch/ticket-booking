@@ -489,10 +489,26 @@
               <option value="C/D">โซน C, D — 399 บาท</option>
             </select>
           </div>
-          <div class="field">
-            <label>ระบุเลขโต๊ะ (ถ้ามี)</label>
-            <input type="text" name="tableno" placeholder="เช่น A-12">
-          </div>
+          <label for="table">เลือกเลขโต๊ะ *</label>
+<select id="table" name="table" required style="width: 100%; padding: 12px; border-radius: 8px; background: #130b22; color: #fff; border: 1px solid #3a2359; margin-top: 5px;">
+  <option value="">-- กรุณาเลือกโต๊ะ --</option>
+  
+  <!-- โซน VIP -->
+  <option value="VIP-01">VIP-01</option>
+  <option value="VIP-02">VIP-02</option>
+  <option value="VIP-03">VIP-03</option>
+  <option value="VIP-04">VIP-04</option>
+  <option value="VIP-05">VIP-05</option>
+
+  <!-- โซน A -->
+  <option value="A-01">A-01</option>
+  <option value="A-02">A-02</option>
+  <option value="A-03">A-03</option>
+  <option value="A-04">A-04</option>
+  <option value="A-05">A-05</option>
+  
+  <!-- เพิ่มรายการเลขโต๊ะอื่นๆ จนครบ 200 โต๊ะตามต้องการ -->
+</select>
           <div class="field">
             <label>แนบสลิปการโอนเงิน <span class="req">*</span></label>
             <label class="file-upload" for="slip">
