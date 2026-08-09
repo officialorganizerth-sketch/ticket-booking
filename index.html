@@ -582,7 +582,12 @@
     if (form) {
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
-
+  // ตรวจสอบว่าลูกค้าแนบสลิปหรือยัง
+        const slipInput = document.getElementById('slip');
+        if (!slipInput || !slipInput.files || slipInput.files.length === 0) {
+            alert("⚠️ กรุณาแนบสลิปการโอนเงินก่อนทำการจองครับ!");
+            return; // หยุดการทำงานทันที
+        }
         if (submitBtn) {
           submitBtn.disabled = true;
           submitBtn.textContent = "⏳ กำลังส่งข้อมูล โปรดรอสักครู่...";
