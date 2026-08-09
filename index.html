@@ -598,14 +598,17 @@
 const phoneVal = document.getElementById('phone')?.value || document.querySelector('[name="phone"]')?.value || document.querySelector('[name="tel"]')?.value || '';
           const tableVal = document.getElementById('table') ? document.getElementById('table').value : '';
           
-          let fileBase64 = "";
-          let fileNameVal = "";
+           let fileBase64 = "";
+  let fileNameVal = "";
 
-          if (fileInput && fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            fileNameVal = file.name;
-            fileBase64 = await fileToBase64(file);
-          }
+  // ดึงค่าจากปุ่มอัปโหลดสลิป
+  const fileInput = document.getElementById('slip'); 
+
+  if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    fileNameVal = file.name;
+    fileBase64 = await fileToBase64(file);
+  }
 
           const bookingIdVal = "RW-" + Math.floor(1000 + Math.random() * 9000);
           const ticketList = [
