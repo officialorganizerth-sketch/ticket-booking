@@ -593,8 +593,8 @@
         }
 
         try {
-          const nameVal = document.getElementById('name') ? document.getElementById('name').value : '';
-          const phoneVal = document.getElementById('phone') ? document.getElementById('phone').value : '';
+         const nameVal = document.getElementById('name') ? document.getElementById('name').value : (document.getElementById('fullname') ? document.getElementById('fullname').value : '');
+const phoneVal = document.getElementById('phone') ? document.getElementById('phone').value : (document.getElementById('tel') ? document.getElementById('tel').value : '');
           const tableVal = document.getElementById('table') ? document.getElementById('table').value : '';
           
           let fileBase64 = "";
