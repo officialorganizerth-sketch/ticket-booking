@@ -593,8 +593,8 @@
         }
 
         try {
-         const nameVal = document.getElementById('name')?.value || document.getElementById('fullname')?.value || document.getElementById('customer_name')?.value || document.getElementById('cusName')?.value || '';
-const phoneVal = document.getElementById('phone')?.value || document.getElementById('tel')?.value || document.getElementById('phonenumber')?.value || document.getElementById('telephone')?.value || '';
+        const nameVal = document.getElementById('name')?.value || document.querySelector('[name="name"]')?.value || document.querySelector('[name="fullname"]')?.value || '';
+const phoneVal = document.getElementById('phone')?.value || document.querySelector('[name="phone"]')?.value || document.querySelector('[name="tel"]')?.value || '';
           const tableVal = document.getElementById('table') ? document.getElementById('table').value : '';
           
           let fileBase64 = "";
