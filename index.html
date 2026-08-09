@@ -575,7 +575,36 @@
       alert("เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง");
     });
   });
+  // -------------------------------------------------------------
+  // ระบบเช็กและล็อกโต๊ะสีแดงแบบเรียลไทม์ (เช็กซ้ำทุกๆ 5 วินาที)
+  // -------------------------------------------------------------
+  function updateBookedTables() {
+    if (typeof webAppUrl === 'undefined' || !webAppUrl) return;
 
+    fetch(webAppUrl)
+      .then(res => res.json())
+      .then(bookedTables => {
+        const tableSelect = document.getElementById('table');
+        if (!tableSelect) return;
+
+        Array.from(tableSelect.options).forEach(option => {
+          const val = option.value.trim();
+          if (val && bookedTables.includes(val)) {
+            option.disabled = true;           // ล็อกไม่ให้จิ้มเลือก
+            option.style.backgroundColor = '#ff4d4d'; // เปลี่ยนแถบเป็นสีแดง
+            option.style.color = '#ffffff';   // ตัวอักษรสีขาว
+            
+            if (!option.textContent.includes('(จองแล้ว ❌)')) {
+              option.textContent = option.textContent + ' (จองแล้ว ❌)';
+            }
+          }
+        });
+      })
+      .catch(err => console.error('Error fetching booked tables:', err));
+  }
+
+  document.addEventListener('DOMContentLoaded', updateBookedTables);
+  setInterval(updateBookedTables, 5000);
   // ฟังก์ชันสร้าง QR Code 4 ใบ
   function renderQRCodes(tickets, tableNo) {
     const container = document.getElementById("qr-results-container");
