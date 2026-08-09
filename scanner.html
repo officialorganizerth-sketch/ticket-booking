@@ -23,25 +23,49 @@
     const webAppUrl = "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec";
 
     function checkIn() {
-      const ticketCode = document.getElementById('ticketInput').value;
-      const resDiv = document.getElementById('result');
-      
-      fetch(webAppUrl, {
+    const ticketCode = document.getElementById('ticketInput').value.trim();
+    const resDiv = document.getElementById('result');
+
+    if (!ticketCode) {
+        alert('กรุณากรอกหรือสแกนรหัสตั๋ว');
+        return;
+    }
+
+    // --- ช่วงตรวจซ้ำตรงนี้ครับ ---
+    let checkedList = JSON.parse(localStorage.getItem('checkedTickets')) || [];
+    
+    if (checkedList.includes(ticketCode)) {
+        // 🔴 ถ้าเคยสแกนไปแล้ว (ขึ้นเตือนสตาฟทันที)
+        resDiv.style.backgroundColor = "#ffebee";
+        resDiv.style.color = "#c62828";
+        resDiv.innerHTML = `⚠️ <b>แจ้งเตือน:</b> ตั๋วรหัส "${ticketCode}" นี้ถูกใช้งานไปแล้ว!`;
+        alert(`⚠️ แจ้งเตือน! ตั๋วรหัส ${ticketCode} นี้ถูกใช้งานไปแล้ว!`);
+        document.getElementById('ticketInput').value = "";
+        document.getElementById('ticketInput').focus();
+        return; // หยุดการทำงาน ไม่ส่งซ้ำ
+    }
+
+    // 🟢 ถ้ายังไม่เคยสแกน ให้บันทึกเก็บไว้แล้วส่งข้อมูลปกติ
+    checkedList.push(ticketCode);
+    localStorage.setItem('checkedTickets', JSON.stringify(checkedList));
+
+    fetch(webAppUrl, {
         method: "POST",
         mode: "no-cors",
         body: JSON.stringify({ action: "checkin", ticketCode: ticketCode })
-      })
-      .then(() => {
+    })
+    .then(() => {
         resDiv.innerHTML = "✅ ตรวจสอบแล้ว: " + ticketCode;
         resDiv.style.backgroundColor = "#e8f5e9";
+        resDiv.style.color = "#2e7d32";
         document.getElementById('ticketInput').value = "";
         document.getElementById('ticketInput').focus();
-      })
-      .catch(err => {
+    })
+    .catch(err => {
         resDiv.innerHTML = "❌ เกิดข้อผิดพลาด";
         resDiv.style.backgroundColor = "#ffebee";
-      });
-    }
+    });
+}
   </script>
 </body>
 </html>
