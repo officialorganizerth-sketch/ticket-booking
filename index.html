@@ -533,7 +533,7 @@
     </section>
 <script>
   // 1. นำ URL จาก Google Apps Script ที่ลงท้ายด้วย /exec มาวางในเครื่องหมาย " "
-  const webAppUrl = "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec";
+  const webAppUrl = "วาง_WEB_APP_URL_ตรงนี้";
 
   // ฟังก์ชันแปลงไฟล์รูปภาพสลิปเป็น Base64
   function fileToBase64(file) {
@@ -589,49 +589,58 @@
       });
     }
 
-    // ระบบส่งข้อมูลการจอง + ส่งรูปภาพสลิป
+    // ระบบส่งข้อมูลการจอง + ปุ่มโหลดสถานะ
     const form = document.getElementById('bookingForm');
+    const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
     if (form) {
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const nameVal = document.getElementById('name') ? document.getElementById('name').value : '';
-        const phoneVal = document.getElementById('phone') ? document.getElementById('phone').value : '';
-        const tableVal = document.getElementById('table') ? document.getElementById('table').value : '';
-        
-        let fileBase64 = "";
-        let fileNameVal = "";
-
-        if (fileInput && fileInput.files.length > 0) {
-          const file = fileInput.files[0];
-          fileNameVal = file.name;
-          fileBase64 = await fileToBase64(file);
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "⏳ กำลังส่งข้อมูลการจอง โปรดรอสักครู่...";
         }
 
-        const bookingIdVal = "RW-" + Math.floor(1000 + Math.random() * 9000);
-        const ticketList = [
-          `${bookingIdVal}-${tableVal}-T1`,
-          `${bookingIdVal}-${tableVal}-T2`,
-          `${bookingIdVal}-${tableVal}-T3`,
-          `${bookingIdVal}-${tableVal}-T4`,
-        ];
+        try {
+          const nameVal = document.getElementById('name') ? document.getElementById('name').value : '';
+          const phoneVal = document.getElementById('phone') ? document.getElementById('phone').value : '';
+          const tableVal = document.getElementById('table') ? document.getElementById('table').value : '';
+          
+          let fileBase64 = "";
+          let fileNameVal = "";
 
-        const payload = {
-          bookingId: bookingIdVal,
-          name: nameVal,
-          phone: phoneVal,
-          tableNo: tableVal,
-          tickets: ticketList,
-          fileData: fileBase64,
-          fileName: fileNameVal
-        };
+          if (fileInput && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileNameVal = file.name;
+            fileBase64 = await fileToBase64(file);
+          }
 
-        fetch(webAppUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        }).then(() => {
+          const bookingIdVal = "RW-" + Math.floor(1000 + Math.random() * 9000);
+          const ticketList = [
+            bookingIdVal + "-" + tableVal + "-T1",
+            bookingIdVal + "-" + tableVal + "-T2",
+            bookingIdVal + "-" + tableVal + "-T3",
+            bookingIdVal + "-" + tableVal + "-T4"
+          ];
+
+          const payload = {
+            bookingId: bookingIdVal,
+            name: nameVal,
+            phone: phoneVal,
+            tableNo: tableVal,
+            tickets: ticketList,
+            fileData: fileBase64,
+            fileName: fileNameVal
+          };
+
+          await fetch(webAppUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
           renderQRCodes(ticketList, tableVal);
           updateBookedTables();
           form.reset();
@@ -639,7 +648,17 @@
             fileNameEl.textContent = "กรุณาเลือกรูปภาพสลิป";
             fileNameEl.style.color = "";
           }
-        }).catch(err => console.error('Error:', err));
+          alert("🎉 จองสำเร็จเรียบร้อยแล้ว!");
+
+        } catch (err) {
+          console.error('Error:', err);
+          alert("เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง");
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "ส่งข้อมูลจองบัตร";
+          }
+        }
       });
     }
   });
