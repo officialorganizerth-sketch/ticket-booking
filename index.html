@@ -511,6 +511,15 @@
         </div>
         <button type="submit" class="submit-btn">ส่งข้อมูลจองบัตร</button>
       </form>
+      <div id="lookup-section" style="margin: 40px 0; padding: 20px; border: 2px dashed #ccc; border-radius: 10px; background-color: #f9f9f9; text-align: center;">
+    <h3>🔍 ต้องการดูตั๋วย้อนหลัง?</h3>
+    <p style="color: #555;">กรอกเบอร์โทรศัพท์ที่ใช้จองเพื่อเรียกดู QR Code อีกครั้ง</p>
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="myPhone" placeholder="กรอกเบอร์โทรศัพท์" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        <button type="button" onclick="searchTicket()" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">ค้นหา</button>
+    </div>
+    <div id="searchResult" style="margin-top: 20px;"></div>
+</div>
     </section>
 <!-- พื้นที่แสดง QR Code หลังจองสำเร็จ -->
 <div id="qr-results-container"></div>
@@ -709,6 +718,28 @@ function updateTableList() {
         opt.value = tableName;
         opt.textContent = tableName;
         tableSelect.appendChild(opt);
+    }
+}
+  async function searchTicket() {
+    const phone = document.getElementById('myPhone').value;
+    const resultDiv = document.getElementById('searchResult');
+    
+    if (!phone) { alert("กรุณากรอกเบอร์โทรศัพท์"); return; }
+    
+    resultDiv.innerHTML = "กำลังค้นหา...";
+
+    const response = await fetch(webAppUrl, {
+        method: "POST",
+        body: JSON.stringify({ action: "search", phone: phone })
+    });
+    
+    const data = await response.json();
+
+    if (data.status === "found") {
+        resultDiv.innerHTML = `<p style="color: green;">✅ พบข้อมูลการจองของคุณ ${data.name}</p>`;
+        renderQRCodes(data.tickets, data.tableNo, data.name, data.phone);
+    } else {
+        resultDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
     }
 }
 </script>
