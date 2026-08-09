@@ -533,7 +533,7 @@
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
+     const webAppUrl = "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTz16AhuVhnXvL_YOUR_EXEC_URL";
       reader.onerror = error => reject(error);
     });
   }
