@@ -519,21 +519,15 @@
       <span id="fileName">ยังไม่ได้เลือกไฟล์ (JPG, PNG)</span>
     </span>
   </label>
-
-  <input type="file" id="slip" name="slip" accept="image/*" required style="display: none;">
-</div>
-
-  <!-- ช่องรับไฟล์ (แยกออกมาด้านนอก label) -->
-  <input type="file" id="slip" name="slip" accept="image/*" required style="display: none;">
+  <input type="file" id="slip" name="slip" accept="image/*" style="display: none;">
 </div>
         </div>
-
         <button type="submit" class="submit-btn">ส่งข้อมูลจองบัตร</button>
       </form>
     </section>
 <script>
   // 📍 1. วาง URL จาก Google Apps Script ที่ลงท้ายด้วย /exec ตรงนี้
-  const webAppUrl = https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec";
+  const webAppUrl = "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec";
 
   function fileToBase64(file) {
     return new Promise((resolve, reject) => {
