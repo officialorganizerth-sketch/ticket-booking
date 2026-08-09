@@ -659,7 +659,7 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
   function updateTableList() {
   const zone = document.getElementById('zoneSelect').value;
   const tableSelect = document.getElementById('table');
-  
+   if (!tableSelect) return; 
   tableSelect.innerHTML = '<option value="">-- เลือกโต๊ะ --</option>';
   
   let prefix = '';
