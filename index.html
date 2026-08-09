@@ -532,6 +532,22 @@
   <div class="toast" id="toast">✅ ส่งข้อมูลการจองเรียบร้อยแล้ว ทีมงานจะติดต่อกลับเร็ว ๆ นี้</div>
 
  <script>
+    // ระบบแสดงชื่อไฟล์สลิปเมื่อลูกค้าเลือกรูปภาพ
+  document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('slip');
+    const fileNameEl = document.getElementById('fileName');
+
+    if (fileInput && fileNameEl) {
+      fileInput.addEventListener('change', function() {
+        if (this.files && this.files.length > 0) {
+          // เปลี่ยนข้อความบอกชื่อไฟล์ พร้อมเปลี่ยนตัวหนังสือเป็นสีเขียว
+          fileNameEl.textContent = "แนบไฟล์แล้ว: " + this.files[0].name;
+          fileNameEl.style.color = "#00ff88";
+          fileNameEl.style.fontWeight = "bold";
+        }
+      });
+    }
+  });
    "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec"
   const fileInput = document.getElementById('slip');
   const fileNameEl = document.getElementById('fileName');
