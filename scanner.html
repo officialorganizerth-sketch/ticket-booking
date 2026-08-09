@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ระบบเช็คอินหน้างาน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; }
+    #result { font-size: 24px; font-weight: bold; margin-top: 20px; padding: 20px; border-radius: 10px; }
+    input { font-size: 18px; padding: 10px; width: 80%; }
+    button { font-size: 18px; padding: 10px 20px; margin-top: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>ระบบเช็คอินหน้างาน</h2>
+  <input type="text" id="ticketInput" placeholder="สแกน QR Code หรือกรอกรหัสตั๋ว" autofocus>
+  <br>
+  <button onclick="checkIn()">ตรวจสอบตั๋ว</button>
+  <div id="result"></div>
+
+  <script>
+    // 📌 วาง URL ของ Google Apps Script ของคุณที่นี่
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec";
+
+    function checkIn() {
+      const ticketCode = document.getElementById('ticketInput').value;
+      const resDiv = document.getElementById('result');
+      
+      fetch(webAppUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({ action: "checkin", ticketCode: ticketCode })
+      })
+      .then(() => {
+        resDiv.innerHTML = "✅ ตรวจสอบแล้ว: " + ticketCode;
+        resDiv.style.backgroundColor = "#e8f5e9";
+        document.getElementById('ticketInput').value = "";
+        document.getElementById('ticketInput').focus();
+      })
+      .catch(err => {
+        resDiv.innerHTML = "❌ เกิดข้อผิดพลาด";
+        resDiv.style.backgroundColor = "#ffebee";
+      });
+    }
+  </script>
+</body>
+</html>
