@@ -532,7 +532,7 @@
       </form>
     </section>
 <script>
-  //"https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec"
+  // 1. นำ URL จาก Google Apps Script ที่ลงท้ายด้วย /exec มาวางในเครื่องหมาย " "
   const webAppUrl = "https://script.google.com/macros/s/AKfycbwka-Cct7ZCQcJEtGTX8QRVwvTzPmxbDsl6AhuVhnxvLiwf4nZ9rJ-r35FyMGJWbvec/exec";
 
   // ฟังก์ชันแปลงไฟล์รูปภาพสลิปเป็น Base64
@@ -666,59 +666,3 @@
     `;
   }
 </script>
-        ];
-
-        const payload = {
-          bookingId: bookingIdVal,
-          name: nameVal,
-          phone: phoneVal,
-          tableNo: tableVal,
-          tickets: ticketList
-        };
-
-        fetch(webAppUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        }).then(() => {
-          renderQRCodes(ticketList, tableVal);
-          updateBookedTables();
-          form.reset();
-          if (fileNameEl) {
-            fileNameEl.textContent = "ยังไม่ได้เลือกไฟล์ (JPG, PNG)";
-            fileNameEl.style.color = "";
-            fileNameEl.style.fontWeight = "normal";
-          }
-        }).catch(err => console.error('Error:', err));
-      });
-    }
-  });
-
-  // -------------------------------------------------------------
-  // 4. ฟังก์ชันสร้างรูป QR Code 4 ใบ
-  // -------------------------------------------------------------
-  function renderQRCodes(tickets, tableNo) {
-    const container = document.getElementById("qr-results-container");
-    if (!container) return;
-    
-    container.innerHTML = `
-      <div style="margin: 20px 0; padding: 20px; border: 2px solid #8b5cf6; border-radius: 12px; background: #1a0f2e; text-align: center; color: #fff;">
-        <h3 style="color: #f5c451; margin-bottom: 5px;">🎉 จองสำเร็จ! (${tableNo})</h3>
-        <p style="color: #b6a4d6; font-size: 14px;">โปรดบันทึกภาพหรือแชร์ QR Code ให้เพื่อนในโต๊ะ (1 ใบ / 1 คน)</p>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px;">
-          ${tickets.map((ticketCode, index) => `
-            <div style="background: #ffffff; border-radius: 8px; padding: 12px; width: 170px; text-align: center; color: #000;">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${ticketCode}" alt="QR Ticket" style="width: 100%;" />
-              <p style="margin: 8px 0 2px 0; font-weight: bold; color: #1a0f2e;">ใบที่ ${index + 1} / 4</p>
-              <small style="color: #666; font-size: 10px; word-break: break-all;">${ticketCode}</small>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-</script>
-
-</body>
-</html>
