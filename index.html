@@ -480,20 +480,21 @@
             <input type="text" name="lineid" placeholder="เช่น @neonnight" required>
           </div>
           <div class="field">
-  <label>เลือกโซน <span class="req">*</span></label>
-  <!-- เปลี่ยนตรงนี้ให้มี id="zoneSelect" และมีคำสั่ง onchange="updateTableList()" ครับ -->
-  <select id="zoneSelect" name="zone" onchange="updateTableList()" required style="width: 100%; padding: 12px; border-radius: 8px; background: #130b22; color: #fff; border: 1px solid #3a2b5a;">
-    <option value="" disabled selected>-- เลือกโซนที่ต้องการ --</option>
-    <option value="VIP">VIP - 3,999 บาท</option>
-    <option value="A">โซน A - 2,800 บาท</option>
-    <option value="B">โซน B - 2,600 บาท</option>
-    <option value="C/D">โซน C, D - 399 บาท</option>
-     </select>
+    <label>เลือกโซน <span class="req">*</span></label>
+    <select id="zoneSelect" name="zone" onchange="updateTableList()" required style="width: 100%; padding: 12px; border-radius: 8px;">
+        <option value="" disabled selected>-- เลือกโซนที่ต้องการ --</option>
+        <option value="VIP">VIP - 3,999 บาท</option>
+        <option value="A">โซน A - 2,800 บาท</option>
+        <option value="B">โซน B - 2,600 บาท</option>
+        <option value="C/D">โซน C, D - 399 บาท</option>
+    </select>
+</div>
+
 <div class="field">
-  <label for="table">เลือกเลขโต๊ะ <span class="req">*</span></label>
-  <select id="table" name="table" required style="width: 100%; padding: 12px; border-radius: 8px; background: #130b22; color: #fff; border: 1px solid #3a2b5a;">
-    <option value="">-- กรุณาเลือกโซนก่อน --</option>
-  </select>
+    <label for="table">เลือกเลขโต๊ะ <span class="req">*</span></label>
+    <select id="table" name="table" required style="width: 100%; padding: 12px; border-radius: 8px;">
+        <option value="">-- กรุณาเลือกโซนก่อน --</option>
+    </select>
 </div>
          <div class="field">
   <label>แนบสลิปการโอนเงิน <span class="req">*</span></label>
