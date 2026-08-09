@@ -638,20 +638,28 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
     }
   });
 
- function renderQRCodes(tickets, tableNo) {
+ function renderQRCodes(tickets, tableNo, customerName, customerPhone) {
     const container = document.getElementById("qr-results-container");
     if (!container) return;
 
     container.innerHTML = `
-        <div style="margin: 20px 0; padding: 20px; border: 2px solid #8b5cfc; border-radius: 12px;">
-            <h3 style="color: #f5c451; margin-bottom: 5px;">🎉 จองสำเร็จ! (${tableNo})</h3>
-            <p style="color: #b6a4d6; font-size: 14px;">โปรดบันทึกภาพหรือแชร์ QR Code ให้เพื่อนในโต๊ะ (1 ใบ / 1 ท่าน)</p>
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px;">
+        <div style="margin: 20px 0; padding: 20px; border: 2px solid #8b5cfc; border-radius: 12px; background: #1a0f2e; color: white; text-align: center;">
+            <h3 style="color: #f5c451; margin-bottom: 8px;">🎉 จองสำเร็จ! (โต๊ะ ${tableNo})</h3>
+            
+            <div style="background: #2a1b4e; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: inline-block; text-align: left;">
+                <p style="margin: 4px 0; font-size: 14px;">👤 <b>ชื่อผู้จอง:</b> ${customerName || '-'}</p>
+                <p style="margin: 4px 0; font-size: 14px;">📞 <b>เบอร์โทร:</b> ${customerPhone || '-'}</p>
+            </div>
+
+            <p style="color: #b6a4d6; font-size: 13px; margin-bottom: 15px;">โปรดบันทึกภาพหรือแชร์ QR Code ให้เพื่อนในโต๊ะ (1 ใบ / 1 ท่าน)</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
                 ${tickets.map((ticketCode, index) => `
-                    <div style="background: #ffffff; border-radius: 8px; padding: 12px; width: 170px; text-align: center;">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${ticketCode}" style="width: 140px; height: 140px; display: block; margin: 0 auto 8px auto;" alt="QR Code">
-                        <p style="margin: 8px 0 2px 0; font-weight: bold; color: #1a0f2e;">ใบที่ ${index + 1}</p>
-                        <small style="color: #666; font-size: 10px; word-break: break-all;">${ticketCode}</small>
+                    <div style="background: #ffffff; border-radius: 8px; padding: 12px; width: 180px; text-align: center; color: #1a0f2e; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ticketCode}" style="width: 130px; height: 130px; display: block; margin: 0 auto 8px auto;" alt="QR Code">
+                        <p style="margin: 4px 0; font-weight: bold; font-size: 14px;">ใบที่ ${index + 1}</p>
+                        <p style="margin: 2px 0; font-size: 12px; color: #444;"><b>${customerName || ''}</b></p>
+                        <small style="color: #666; font-size: 9px; word-break: break-all;">${ticketCode}</small>
                     </div>
                 `).join('')}
             </div>
