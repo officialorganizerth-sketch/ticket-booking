@@ -656,37 +656,36 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
         </div>
     `;
 }
-  function updateTableList() {
-  const zone = document.getElementById('zoneSelect').value;
-  const tableSelect = document.getElementById('table');
-   if (!tableSelect) return; 
-  tableSelect.innerHTML = '<option value="">-- เลือกโต๊ะ --</option>';
-  
-  let prefix = '';
-  let totalTables = 0;
-  
-  if (zone === 'VIP') {
-    prefix = 'VIP-';
-    totalTables = 10; 
-  } else if (zone === 'A') {
-    prefix = 'A-';
-    totalTables = 30; 
-  } else if (zone === 'B') {
-    prefix = 'B-';
-    totalTables = 25; 
-  } else if (zone === 'C/D') {
-    prefix = 'C-';
-    totalTables = 20; 
-  }
-  
-  for (let i = 1; i <= totalTables; i++) {
-    const tableNumber = String(i).padStart(2, '0'); 
-    const tableName = prefix + tableNumber;
+function updateTableList() {
+    const zone = document.getElementById('zoneSelect').value;
+    const tableSelect = document.getElementById('table');
     
-    const opt = document.createElement('option');
-    opt.value = tableName;
-    opt.textContent = tableName;
-    tableSelect.appendChild(opt);
-  }
+    if (!tableSelect) return;
+
+    tableSelect.innerHTML = '<option value="">-- กรุณาเลือกโซนก่อน --</option>';
+    let prefix = '';
+    let totalTables = 0;
+
+    if (zone === 'VIP') {
+        prefix = 'VIP-';
+        totalTables = 10;
+    } else if (zone === 'A') {
+        prefix = 'A-';
+        totalTables = 30;
+    } else if (zone === 'B') {
+        prefix = 'B-';
+        totalTables = 25;
+    } else if (zone === 'C/D') {
+        prefix = 'C/D-';
+        totalTables = 40;
+    }
+
+    for (let i = 1; i <= totalTables; i++) {
+        const tableName = prefix + i;
+        const opt = document.createElement('option');
+        opt.value = tableName;
+        opt.textContent = tableName;
+        tableSelect.appendChild(opt);
+    }
 }
 </script>
