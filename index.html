@@ -654,7 +654,7 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
           `).join('')}
         </div>
       </div>
-   function updateTableList() {
+  function updateTableList() {
   const zone = document.getElementById('zoneSelect').value;
   const tableSelect = document.getElementById('table');
   
@@ -663,25 +663,21 @@ const phoneVal = document.getElementById('phone')?.value || document.querySelect
   let prefix = '';
   let totalTables = 0;
   
-  // กำหนดคำนำหน้าและจำนวนโต๊ะของแต่ละโซน
   if (zone === 'VIP') {
     prefix = 'VIP-';
-    totalTables = 10; // สมมติโซน VIP มี 10 โต๊ะ (ปรับเปลี่ยนตัวเลขได้ตามต้องการ)
+    totalTables = 10; 
   } else if (zone === 'A') {
     prefix = 'A-';
-    totalTables = 30; // โซน A มี 30 โต๊ะ
+    totalTables = 30; 
   } else if (zone === 'B') {
     prefix = 'B-';
-    totalTables = 25; // โซน B มี 25 โต๊ะ
+    totalTables = 25; 
   } else if (zone === 'C/D') {
-    // กรณีโซน C และ D รวมกัน หรืออยากแยก ก็สามารถเพิ่มเงื่อนไขได้ครับ
     prefix = 'C-';
     totalTables = 20; 
   }
   
-  // ระบบจะวนลูปสร้างเลขโต๊ะให้อัตโนมัติ (เช่น 01, 02, 03 ไปจนถึงจำนวนโต๊ะที่ตั้งไว้)
   for (let i = 1; i <= totalTables; i++) {
-    // ทำให้เลขโต๊ะเป็น 2 หลักเสมอ เช่น 1 กลายเป็น 01
     const tableNumber = String(i).padStart(2, '0'); 
     const tableName = prefix + tableNumber;
     
